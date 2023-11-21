@@ -213,12 +213,17 @@ class Import
                         if (is_array(current(array_values($fieldData)))) {
                             // We are importing a block
                             foreach ($fieldData as $setName => $setValue) {
+                                // Senne: Fix image import in blocks
+                                if (array_key_exists('image', $setValue)) {
+                                    $setValue['image']['filename'] = $setValue['image']['file'];
+                                }
+
                                 // Turn `['value' => 123, '_id' => 'pages/mission']` into the correct Content ID
                                 if (is_iterable($setValue) &&
                                     array_key_exists(0, $setValue) &&
                                     (array_key_exists('_id', $setValue[0]) || array_key_exists('reference', $setValue[0]))) {
                                     $setValue = $this->getMultipleValues($setValue);
-                                }
+                                    }
 
                                 $this->data['collections'][$key][$setName][$i] = $setValue;
                                 $this->data['collections'][$key]['order'][] = $i;
