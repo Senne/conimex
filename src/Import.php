@@ -173,6 +173,11 @@ class Import
                         'longitude' => 'long',
                     ];
 
+                    // Senne: Skip if the location is null
+                    if (!$item) {
+                        break;
+                    }
+                    
                     foreach ($item as $geoKey => $value) {
                         if (array_key_exists($geoKey, $keyReplacements)) {
                             $item[$keyReplacements[$geoKey]] = $item[$geoKey];
